@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometri Pahat Bor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #c9a892 0%, #7eb3c4 50%, #5fa3b8 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .left-panel {
+            background: rgba(230, 230, 230, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            flex: 0 0 350px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .right-panel {
+            flex: 1;
+            min-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        h1 {
+            color: #1e3a8a;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .section-title {
+            color: #3b4f9e;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1em;
+            margin-bottom: 20px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        .input-field:focus {
+            box-shadow: 0 2px 12px rgba(59, 79, 158, 0.3);
+        }
+
+        select.input-field {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%233b4f9e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            padding-right: 45px;
+        }
+
+        .diameter-control {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .diameter-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #5dbcc9 0%, #2563eb 100%);
+            color: white;
+            font-size: 1.8em;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .diameter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+        }
+
+        .diameter-btn:active {
+            transform: translateY(0);
+        }
+
+        .diameter-input {
+            flex: 1;
+            margin-bottom: 0;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #5dbcc9 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.3em;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .angle-card {
+            background: linear-gradient(135deg, #3b5998 0%, #4a6bb5 100%);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .angle-card.large {
+            grid-column: 1 / -1;
+        }
+
+        .angle-label {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .angle-value {
+            font-size: 3.5em;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .angles-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .results-panel {
+            background: rgba(230, 240, 250, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .results-title {
+            color: #1e3a8a;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(59, 79, 158, 0.2);
+            font-size: 1.1em;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+
+        .result-value {
+            color: #3b4f9e;
+            font-weight: 700;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-panel {
+                flex: 1;
+                width: 100%;
+            }
+
+            .right-panel {
+                min-width: 100%;
+            }
+
+            .angles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h1>Geometri<br>Pahat Bor</h1>
+            
+            <div class="section-title">Material Pahat</div>
+            <select class="input-field" id="materialPahat">
+                <option value="">Pilih material pahat</option>
+                <option value="HSS">HSS (High Speed Steel)</option>
+                <option value="Carbide">Carbide</option>
+                <option value="Cobalt">Cobalt Steel</option>
+                <option value="Diamond">Diamond Coated</option>
+            </select>
+            
+            <div class="section-title">Material Benda Kerja</div>
+            <select class="input-field" id="materialBenda">
+                <option value="">Pilih material benda kerja</option>
+                <option value="Baja Lunak">Baja Lunak</option>
+                <option value="Baja Keras">Baja Keras</option>
+                <option value="Aluminium">Aluminium</option>
+                <option value="Kuningan">Kuningan</option>
+                <option value="Tembaga">Tembaga</option>
+                <option value="Stainless Steel">Stainless Steel</option>
+                <option value="Plastik">Plastik</option>
+            </select>
+            
+            <div class="section-title">Diameter bor (mm)</div>
+            <div class="diameter-control">
+                <button class="diameter-btn" onclick="decrementDiameter()">-</button>
+                <input type="number" class="input-field diameter-input" id="diameter" value="10" min="1" max="100">
+                <button class="diameter-btn" onclick="incrementDiameter()">+</button>
+            </div>
+            
+            <button class="calculate-btn" onclick="calculate()">HITUNG</button>
+        </div>
+
+        <div class="right-panel">
+            <div class="angle-card large">
+                <div class="angle-label">Sudut Mata Potong</div>
+                <div class="angle-value" id="angle1">--</div>
+            </div>
+
+            <div class="angles-grid">
+                <div class="angle-card">
+                    <div class="angle-label">Sudut Helix</div>
+                    <div class="angle-value" id="angle2">---</div>
+                </div>
+                <div class="angle-card">
+                    <div class="angle-label">Sudut Bebas</div>
+                    <div class="angle-value" id="angle3">---</div>
+                </div>
+            </div>
+
+            <div class="results-panel">
+                <div class="results-title">Parameter Pemotongan</div>
+                <div class="result-row">
+                    <span class="result-label">Kecepatan Potong</span>
+                    <span class="result-value" id="kecepatanPotong">-</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Putaran Spindle</span>
+                    <span class="result-value" id="putaranSpindle">-</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Gerak Makan per Putaran</span>
+                    <span class="result-value" id="gerakMakan">-</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Parameter Pemotongan</span>
+                    <span class="result-value" id="parameterPemotongan">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function incrementDiameter() {
+            const input = document.getElementById('diameter');
+            let value = parseInt(input.value) || 0;
+            if (value < 100) input.value = value + 1;
+        }
+
+        function decrementDiameter() {
+            const input = document.getElementById('diameter');
+            let value = parseInt(input.value) || 0;
+            if (value > 1) input.value = value - 1;
+        }
+
+        function calculate() {
+            let materialPahat = document.getElementById('materialPahat').value;
+            let materialBenda = document.getElementById('materialBenda').value;
+            let diameter = parseFloat(document.getElementById('diameter').value);
+
+            let sudutPotong, sudutHelix, sudutBebas, kecepatanPotong, putaranSpindle, gerakMakan;
+            switch (materialBenda) {
+                case "Aluminium":
+                case "Kuningan":
+                case "Tembaga":
+                case "Plastik":
+                    sudutPotong = 95;
+                    break;
+                case "Baja Lunak":
+                    sudutPotong = 118;
+                    break;
+                case "Baja Keras":
+                case "Stainless Steel":
+                    sudutPotong = 135;
+                    break;
+                default:
+                    sudutPotong = 120;
+            }
+
+            switch (true) {
+                case ["Aluminium", "Kuningan", "Plastik"].includes(materialBenda):
+                    sudutHelix = 38;
+                    break;
+                case materialBenda === "Baja Lunak":
+                    sudutHelix = 30;
+                    break;
+                case ["Baja Keras", "Stainless Steel"].includes(materialBenda):
+                    sudutHelix = 25;
+                    break;
+                default:
+                    sudutHelix = 28;
+            }
+            switch (materialPahat) {
+                case "HSS":
+                    sudutBebas = 12;
+                    break;
+                case "Cobalt":
+                    sudutBebas = 10;
+                    break;
+                case "Carbide":
+                    sudutBebas = 8;
+                    break;
+                case "Diamond":
+                    sudutBebas = 6;
+                    break;
+                default:
+                    sudutBebas = 10;
+            }
+            switch (materialBenda) {
+                case "Aluminium": kecepatanPotong = 80; break;
+                case "Kuningan": kecepatanPotong = 60; break;
+                case "Tembaga": kecepatanPotong = 50; break;
+                case "Baja Lunak": kecepatanPotong = 40; break;
+                case "Baja Keras": kecepatanPotong = 25; break;
+                case "Stainless Steel": kecepatanPotong = 20; break;
+                default: kecepatanPotong = 35;
+            }
+
+            putaranSpindle = Math.round((1000 * kecepatanPotong) / (Math.PI * diameter));
+            gerakMakan = (materialPahat === "HSS") ? 0.2 : (materialPahat === "Carbide" ? 0.15 : 0.1);
+            document.getElementById('angle1').textContent = sudutPotong + "°";
+            document.getElementById('angle2').textContent = sudutHelix + "°";
+            document.getElementById('angle3').textContent = sudutBebas + "°";
+            document.getElementById('kecepatanPotong').textContent = kecepatanPotong + " m/menit";
+            document.getElementById('putaranSpindle').textContent = putaranSpindle + " rpm";
+            document.getElementById('gerakMakan').textContent = gerakMakan.toFixed(2) + " mm/put";
+            document.getElementById('parameterPemotongan').textContent = "OK ✅";
+        }
+    </script>
+</body>
+</html>
